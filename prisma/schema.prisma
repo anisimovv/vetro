@@ -76,19 +76,19 @@ model Construction {
   variants ConstructionVariant[]
   elements ConstructionElement[]
 
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  GlassOnConstruction GlassOnConstruction[]
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+  glass     GlassOnConstruction[]
 }
 
 model ConstructionVariant {
-  id   String @id @default(cuid())
+  id String @id @default(cuid())
 
-  name String
+  name  String
   price Float
 
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
   construction   Construction @relation(fields: [constructionId], references: [id])
   constructionId String
 
@@ -104,8 +104,8 @@ model ConstructionElement {
   defaultValue Float
   dimention    Dimention
 
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
   construction   Construction @relation(fields: [constructionId], references: [id])
   constructionId String
 
@@ -129,9 +129,9 @@ model Glass {
   size  Float
   price Float
 
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  GlassOnConstruction GlassOnConstruction[]
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  construction GlassOnConstruction[]
 
   @@unique([id, color, size])
 }

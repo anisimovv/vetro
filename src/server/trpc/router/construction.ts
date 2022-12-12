@@ -3,14 +3,21 @@ import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
 
 export const constructionRouter = router({
-  // hello: publicProcedure
-  //   .input(z.object({ text: z.string().nullish() }).nullish())
-  //   .query(({ input }) => {
-  //     return {
-  //       greeting: `Hello ${input?.text ?? "world"}`,
-  //     };
-  //   }),
-  // getAll: publicProcedure.query(({ ctx }) => {
-  //   return ctx.prisma.example.findMany();
-  // }),
+  all: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.construction.findMany();
+  }),
+  byId: publicProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.construction.findUniqueOrThrow({
+        where: {
+          id: input.id,
+        },
+        include: {
+          elements: true,
+          variants: true,
+          glass: true,
+        },
+      });
+    }),
 });
